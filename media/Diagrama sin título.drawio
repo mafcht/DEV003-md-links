@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2023-02-20T15:49:15.645Z" agent="5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36" etag="72S3G7Hw2hgzZ8RxNxVI" version="20.8.20" type="github">
+<mxfile host="app.diagrams.net" modified="2023-02-20T16:05:28.675Z" agent="5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36" etag="d5MbDUCRIIeVLoSzyirR" version="20.8.20" type="github">
   <diagram id="C5RBs43oDa-KdzZeNtuy" name="Page-1">
     <mxGraphModel dx="954" dy="530" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
@@ -268,8 +268,11 @@
         <mxCell id="OmvuDLbbuwKiAppSM0HC-63" value="total(href)&lt;br&gt;unique(href)&lt;br&gt;broken(href)" style="rounded=0;whiteSpace=wrap;html=1;fontSize=10;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
           <mxGeometry x="474" y="950" width="90" height="40" as="geometry" />
         </mxCell>
+        <mxCell id="OmvuDLbbuwKiAppSM0HC-67" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.75;entryY=0;entryDx=0;entryDy=0;fontSize=10;endArrow=classic;endFill=1;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="OmvuDLbbuwKiAppSM0HC-66" target="WIyWlLk6GJQsqaUBKTNV-11">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
         <mxCell id="OmvuDLbbuwKiAppSM0HC-66" value="Error" style="shape=parallelogram;perimeter=parallelogramPerimeter;whiteSpace=wrap;html=1;fixedSize=1;fontSize=10;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
-          <mxGeometry x="540" y="585" width="80" height="30" as="geometry" />
+          <mxGeometry x="494" y="585" width="66" height="30" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
