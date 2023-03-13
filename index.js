@@ -1,7 +1,9 @@
 // importo las funciones que necesito del archivo functions
 const { existsPath, absolutePath, getMdFiles, getAllLinks, validateLink } = require('./functions.js')
 
+// inputs path y options
 const mdLinks = (path, options) => {
+  //creo una nueva promesa
   return new Promise((resolve, reject) => {
     // Identificar si la ruta existe
     if (existsPath(path)) {
@@ -9,35 +11,35 @@ const mdLinks = (path, options) => {
       const absPath = absolutePath(path)
       // Checar si es un solo archivo o directorio y filtrar archivos .md llamando a funcion getMdFiles
       const mdFilesArr = getMdFiles(absPath);
-      // Si hay mas de un archivo .md
+      // Si hay mas de un archivo .md recorrerlos 
       if (mdFilesArr.length >= 1) {
         // Leer archivos .md y extraer los links
-        getAllLinks(absPath)
-          .then((linksArr) => {
-            // si hay mas de un link y se cumple la opcion de validar es true
-            if (linksArr.length >= 1 && options.validate == true) {
-              // resuelve aplicando la funcion validateLink a todos los links del array
-              resolve((validateLink(linksArr)))
-              // si hay mas de un link y la opcion de validar es falsa O nula
-            } else if (linksArr.length >= 1 && (options.validate != true || options == null)) {
-              // resuelve aplicando la funcion de getAllLinks a los paths absolutos y me muestra solo el array de links
-              resolve((getAllLinks(absPath)))
-              // cuando el array sea igual a 0 manda el error que no encontro links
-            } else if (linksArr.length >= 1 && (options.validate != true || options == undefined)) {
-              resolve((getAllLinks(absPath)))
-            }  else if (linksArr.length == 0) {
-              reject(new Error('NO LINKS FOUND'))
-            }
-          }).catch((error) => {
-            console.log(error)
-          })
+        const linksArr = getAllLinks(absPath);
+        // si hay mas de un link y se cumple la opcion de validar es true
+        if (linksArr.length >= 1 && options.validate == true) {
+          // resuelve aplicando la funcion validateLink a todos los links del array
+          resolve((validateLink(linksArr)))
+          // si hay mas de un link y la opcion de validar es falsa O nula
+        } else if (linksArr.length >= 1 && (options.validate != true || options == null)) {
+          // resuelve aplicando la funcion de getAllLinks a los paths absolutos y me muestra solo el array de links
+          resolve((getAllLinks(absPath)))
+        }
+        // agregamos opcion cuando es diferente a true y undefined
+        else if (linksArr.length >= 1 && (options.validate != true || options == undefined)) {
+          // resuelve aplicando la funcion de getAllLinks a los paths absolutos y me muestra solo el array de links
+          resolve((getAllLinks(absPath)))
+        }
+        // cuando el array sea igual a 0 manda el error que no encontro links
+        else if (linksArr.length == 0) {
+          reject(new Error('NO PATH FOUND'))
+        }
       }
     }
   })
 }
 
 // prueba de desarrollo para cuando option. validate es true
-// mdLinks('/Users/mafcht/Documents/DEV003-md-links/folderTests/folder2Tests/linkedin.md', {validate : true})
+// mdLinks('/Users/mafcht/Documents/DEV003-md-links/folderTests', {validate : true})
 // .then((resolve) => { console.log(resolve)})
 // .catch((error) => { console.log(error)});
 
@@ -58,6 +60,11 @@ const mdLinks = (path, options) => {
 
 // prueba de desarrollo para cuando no encuentra links en el archivo .md
 // mdLinks('folderTests/test1.md', {validate : true})
+// .then((resolve) => console.log(resolve))
+// .catch((error) => console.log(error));
+
+// prueba de desarrollo para cuando path no existe
+// mdLinks('/Users/mafcht/Documents/DEV003-md-links/folderTests/folder2Tests', {validate : false})
 // .then((resolve) => console.log(resolve))
 // .catch((error) => console.log(error));
 
