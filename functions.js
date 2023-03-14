@@ -4,11 +4,11 @@ const fs = require('fs');
 const path = require('path');
 // para peticiones con http
 const fetch = require('node-fetch');
-// modulo jsom para 
+// modulo jsom para recrear y manipular objetos en el DOM
 const jsdom = require('jsdom');
 // constructor de jsom con propiedades
 const { JSDOM } = jsdom;
-// modulo markdown it
+// modulo markdown it convertir texto escrito en formato HTML
 const md = require('markdown-it');
 
 // funcion para ver si la ruta existe, es asincrona
