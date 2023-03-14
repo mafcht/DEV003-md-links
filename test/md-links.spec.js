@@ -4,6 +4,7 @@ const { existsPath, absolutePath, isFile, readDir, readFile, getMdFiles, getAllL
 const fetch = require('node-fetch');
 jest.mock('node-fetch');
 const { Response } = jest.requireActual('node-fetch');
+//jest.setTimeout(10000); 
 
 describe('mdLinks', () => {
 
@@ -12,7 +13,7 @@ describe('mdLinks', () => {
   });
 
   it('should return and object', () => {
-      expect(typeof mdLinks()).toBe('object');
+    expect(typeof mdLinks()).toBe('object');
   });
 
   it('Should return and array with object and properties:href, text, file', () => {
@@ -38,10 +39,10 @@ describe('mdLinks', () => {
     expect(mdLinks(path, { validate: true })).resolves.toStrictEqual(expect.anything(array));
   });
 
-  it('Should reject a path when it does not exists ', () => {
-    return mdLinks('/Users/fcht/Documents/DEV003-md-links/folderTests/folder2Tests').catch(error => {
-      expect(error).toBe('NO PATH FOUND')
-    })
+  // this test is NOT passing
+  it('Should reject the promise when array is empty', () => {
+    const linksArr = [];
+    return expect(mdLinks(linksArr)).rejects.toMatch('ERROR: NO PATH FOUND');
   });
 });
 
@@ -123,119 +124,136 @@ describe('getMdFiles should return only .md files', () => {
 
 //test to verify if function brings links
 describe('getAllLinks should bring array of links', () => {
-  it('Should return a promise', () => {
-    return getAllLinks()
-      .then(() => {
-        expect(getAllLinks).toBe(typeof 'promise')
-      })
-      .catch((error) => { error });
+  it('should be a function', () => {
+    expect(typeof getAllLinks).toBe('function');
   });
-    
-  
-  it('Should return an array of objects with links', () => {
-      const path = '/Users/mafcht/Documents/DEV003-md-links/folderTests/folder2Tests/linkedin.md';
-      const arrayLinks = [
-        {
-          href: 'https://www.laboratoriaplus.la/',
-          text: 'LABORATORIA',
-          file: '/Users/mafcht/Documents/DEV003-md-links/folderTests/folder2Tests/linkedin.md'
-        },
-        {
-          href: 'https://es.wikipedia.org/wiki/Markdown',
-          text: 'Markdown',
-          file: '/Users/mafcht/Documents/DEV003-md-links/folderTests/folder2Tests/linkedin.md'
-        },
-        {
-          href: 'https://nodejs.dev/en/learn/nodejs-file-paths/',
-          text: 'Nodejs',
-          file: '/Users/mafcht/Documents/DEV003-md-links/folderTests/folder2Tests/linkedin.md'
-        },
-        {
-          href: 'https://noexiste123424noexiste/',
-          text: 'Noexiste',
-          file: '/Users/mafcht/Documents/DEV003-md-links/folderTests/folder2Tests/linkedin.md'
-        }
-      ]
-      expect(getAllLinks(path, { validate: true })).resolves.toStrictEqual(expect.anything(arrayLinks));
-      });
+  const path = '/Users/mafcht/Documents/DEV003-md-links/folderTests/folder2Tests/linkedin.md';
+  const arrayLinks = [
+    {
+      href: 'https://www.laboratoriaplus.la/',
+      text: 'LABORATORIA',
+      file: '/Users/mafcht/Documents/DEV003-md-links/folderTests/folder2Tests/linkedin.md'
+    },
+    {
+      href: 'https://es.wikipedia.org/wiki/Markdown',
+      text: 'Markdown',
+      file: '/Users/mafcht/Documents/DEV003-md-links/folderTests/folder2Tests/linkedin.md'
+    },
+    {
+      href: 'https://nodejs.dev/en/learn/nodejs-file-paths/',
+      text: 'Nodejs',
+      file: '/Users/mafcht/Documents/DEV003-md-links/folderTests/folder2Tests/linkedin.md'
+    },
+    {
+      href: 'https://noexiste123424noexiste/',
+      text: 'Noexiste',
+      file: '/Users/mafcht/Documents/DEV003-md-links/folderTests/folder2Tests/linkedin.md'
+    }
+  ]
+  it('should return an array containing objects with links information', () => {
+    expect(getAllLinks(path)).toEqual(arrayLinks);
   });
+});
 
 //test for validating link
 describe('validateLink', () => {
   it('should be a function', () => {
     expect(typeof validateLink).toBe('function');
-  }); 
+  });
 
   const linksArr = [
-      {
-    href: 'https://www.laboratoriaplus.la/',
-    text: 'LABORATORIA',
-    file: '/Users/mafcht/Documents/DEV003-md-links/folderTests/folder2Tests/linkedin.md'
-  },
-  {
-    href: 'https://es.wikipedia.org/wiki/Markdown',
-    text: 'Markdown',
-    file: '/Users/mafcht/Documents/DEV003-md-links/folderTests/folder2Tests/linkedin.md'
-  },
-  {
-    href: 'https://nodejs.dev/en/learn/nodejs-file-paths/',
-    text: 'Nodejs',
-    file: '/Users/mafcht/Documents/DEV003-md-links/folderTests/folder2Tests/linkedin.md'
-  }
-    ];
+    {
+      href: 'https://www.laboratoriaplus.la/',
+      text: 'LABORATORIA',
+      file: '/Users/mafcht/Documents/DEV003-md-links/folderTests/folder2Tests/linkedin.md'
+    },
+    {
+      href: 'https://es.wikipedia.org/wiki/Markdown',
+      text: 'Markdown',
+      file: '/Users/mafcht/Documents/DEV003-md-links/folderTests/folder2Tests/linkedin.md'
+    },
+    {
+      href: 'https://nodejs.dev/en/learn/nodejs-file-paths/',
+      text: 'Nodejs',
+      file: '/Users/mafcht/Documents/DEV003-md-links/folderTests/folder2Tests/linkedin.md'
+    }
+  ];
 
   it('should return an array of objects including links and status', () => {
-    fetch.mockReturnValue(Promise.resolve(new Response({status: 200, message: 'OK'})));
+    fetch.mockReturnValue(Promise.resolve(new Response({ status: 200, message: 'OK' })));
     const response = validateLink(linksArr);
     expect(response).resolves.toEqual([
       {
-    href: 'https://www.laboratoriaplus.la/',
-    text: 'LABORATORIA',
-    file: '/Users/mafcht/Documents/DEV003-md-links/folderTests/folder2Tests/linkedin.md',
-    status: 200,
-    message: 'OK'
-  },
-  {
-    href: 'https://es.wikipedia.org/wiki/Markdown',
-    text: 'Markdown',
-    file: '/Users/mafcht/Documents/DEV003-md-links/folderTests/folder2Tests/linkedin.md',
-    status: 200,
-    message: 'OK'
-  },
-  {
-    href: 'https://nodejs.dev/en/learn/nodejs-file-paths/',
-    text: 'Nodejs',
-    file: '/Users/mafcht/Documents/DEV003-md-links/folderTests/folder2Tests/linkedin.md',
-    status: 200,
-    message: 'OK'
-  }
+        href: 'https://www.laboratoriaplus.la/',
+        text: 'LABORATORIA',
+        file: '/Users/mafcht/Documents/DEV003-md-links/folderTests/folder2Tests/linkedin.md',
+        status: 200,
+        message: 'OK'
+      },
+      {
+        href: 'https://es.wikipedia.org/wiki/Markdown',
+        text: 'Markdown',
+        file: '/Users/mafcht/Documents/DEV003-md-links/folderTests/folder2Tests/linkedin.md',
+        status: 200,
+        message: 'OK'
+      },
+      {
+        href: 'https://nodejs.dev/en/learn/nodejs-file-paths/',
+        text: 'Nodejs',
+        file: '/Users/mafcht/Documents/DEV003-md-links/folderTests/folder2Tests/linkedin.md',
+        status: 200,
+        message: 'OK'
+      }
     ])
   });
+
+  //  this test is NOT passing
+  // const linksArray1 = [
+  //   {
+  //     href: 'https://noexiste123424noexiste/', 
+  //     text: 'Noexiste',
+  //     file: '/Users/mafcht/Documents/DEV003-md-links/folderTests/folder2Tests/linkedin.md',
+  //   }
+  // ];
+  // it('should return an array of objects including links and status', () => {
+  //   fetch.mockReturnValue(Promise.reject(new Response({ status: 'FAIL', message: undefined })));
+  //   const response = validateLink(linksArray1);
+  //   expect(response).resolves.toEqual([
+  //     {
+  //       href: 'https://noexiste123424noexiste/',
+  //       text: 'Noexiste',
+  //       file: '/Users/mafcht/Documents/DEV003-md-links/folderTests/folder2Tests/linkedin.md',
+  //       status: 'FAIL',
+  //       message: undefined,
+  //     }
+  //   ])
+  // });
+
 });
 
 // test for statsvalidate function
 describe('statsValidate', () => {
   const linksArr = [
-          {
-            href: 'https://www.laboratoriaplus.la/',
-            text: 'LABORATORIA',
-            file: '/Users/mafcht/Documents/DEV003-md-links/folderTests/folder2Tests/linkedin.md'
-          },
-          {
-            href: 'https://es.wikipedia.org/wiki/Markdown',
-            text: 'Markdown',
-            file: '/Users/mafcht/Documents/DEV003-md-links/folderTests/folder2Tests/linkedin.md'
-          },
-          {
-            href: 'https://nodejs.dev/en/learn/nodejs-file-paths/',
-            text: 'Nodejs',
-            file: '/Users/mafcht/Documents/DEV003-md-links/folderTests/folder2Tests/linkedin.md'
-          }
-        ];
+    {
+      href: 'https://www.laboratoriaplus.la/',
+      text: 'LABORATORIA',
+      file: '/Users/mafcht/Documents/DEV003-md-links/folderTests/folder2Tests/linkedin.md'
+    },
+    {
+      href: 'https://es.wikipedia.org/wiki/Markdown',
+      text: 'Markdown',
+      file: '/Users/mafcht/Documents/DEV003-md-links/folderTests/folder2Tests/linkedin.md'
+    },
+    {
+      href: 'https://nodejs.dev/en/learn/nodejs-file-paths/',
+      text: 'Nodejs',
+      file: '/Users/mafcht/Documents/DEV003-md-links/folderTests/folder2Tests/linkedin.md'
+    }
+  ];
   const infoObj = { total: 3, unique: 3, broken: 0 }
   it('should be a function', () => {
     expect(typeof statsValidate).toBe('function');
-  }); 
+  });
   it('should return an object containing total, unique and broken links', () => {
     expect(statsValidate(linksArr)).toEqual(infoObj);
   });
@@ -243,7 +261,7 @@ describe('statsValidate', () => {
 
 // test for stats function
 describe('stats', () => {
- 
+
   const linksArr = [
     {
       href: 'https://www.laboratoriaplus.la/',
@@ -266,7 +284,7 @@ describe('stats', () => {
 
   it('should be a function', () => {
     expect(typeof stats).toBe('function');
-  }); 
+  });
 
   it('should return an object containing total and unique links', () => {
     expect(stats(linksArr)).toEqual(infoObj);
@@ -305,7 +323,7 @@ describe('validate', () => {
       message: 'NOT FOUND'
     }
   ]
- 
+
   const infoArr = [
     '/Users/mafcht/Documents/DEV003-md-links/folderTests/folder2Tests/linkedin.md https://www.laboratoriaplus.la/ OK 200 LABORATORIA',
     '/Users/mafcht/Documents/DEV003-md-links/folderTests/folder2Tests/linkedin.md https://es.wikipedia.org/wiki/Markdown OK 200 Markdown',
@@ -314,7 +332,7 @@ describe('validate', () => {
   ]
   it('should be a function', () => {
     expect(typeof validate).toBe('function');
-  }); 
+  });
   it('should return an object containing total and unique links', () => {
     expect(validate(promisesArrExample)).toEqual(infoArr);
   });

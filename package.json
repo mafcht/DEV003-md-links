@@ -1,5 +1,5 @@
 {
-  "name": "md-links",
+  "name": "md-links-fc",
   "version": "0.1.0",
   "engines": {
     "node": ">=16.x"
@@ -25,7 +25,7 @@
     "markdown-it": "^13.0.1",
     "marked-links": "^3.1.2"
   },
-  "description": "## Índice",
+  "description": "markdown project to search links",
   "main": "index.js",
   "directories": {
     "test": "test"

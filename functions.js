@@ -4,8 +4,11 @@ const fs = require('fs');
 const path = require('path');
 // para peticiones con http
 const fetch = require('node-fetch');
+// modulo jsom para 
 const jsdom = require('jsdom');
+// constructor de jsom con propiedades
 const { JSDOM } = jsdom;
+// modulo markdown it
 const md = require('markdown-it');
 
 // funcion para ver si la ruta existe, es asincrona
@@ -66,7 +69,7 @@ const getAllLinks = (link) => {
   let linksArr = [];
   // vamos a recorrer cada archivo mdLinks para buscar los links
   getMdFiles(link).forEach((file) => {
-       // creamos constante de expresiones regulares para poder traer el link con https correctamente
+       // creamos constante de expresiones regulares para poder extraer el link con https correctamente buscando este formato [texto del enlace](URL del enlace)
        // '/' cuandp empieza y cuando termina,  'g' es una busqueda global, 'i' no distingue mayusculas de minusculas, 'm' es una busqueda multilenea
       const urlLinks = /\[([^[]+)\](\(.*\))/gmi;
       // creamos constante en donde guardaremos los links que encuentre y hagan match 
@@ -75,15 +78,15 @@ const getAllLinks = (link) => {
       if (linksTextArr != null ) {
           // convertimos el archivo .md en texto HTML usando el markdown it
           let result = md().render(readFile(file));
-          // Recreaamos el DOM con JSDOM
+          // Recreamos el DOM con JSDOM para acceder y buscar los tags <a>
           let dom = new JSDOM(result);
-          // rendereamos el archivo y su contenido y buscamos los que tengan el tag de link <a> 
+          // rendereamos el archivo en el dom.window y su contenido y buscamos todos los elementos que tengan el tag de link <a> 
           linksTextArr = dom.window.document.querySelectorAll('a');
           // por cada link the encuentre     
           linksTextArr.forEach((linksText) => {
               // retorna solo el URL del link 
               const links = linksText.href
-              // retorna solo el tecto del caracter 0 al 100 
+              // retorna el texto contenido en un elemento HTML de enlace <a> y limitar la cantidad de caracteres a los primeros 100 para que si es muy largo el link lo limite
               const text = linksText.textContent.substring(0, 100);
               // usamos push href, text y file al array de links y los vamos añadiendo
               linksArr.push({
@@ -105,25 +108,25 @@ const validateLink = (arrayAllLinks) => {
   // creo un array que va a contener las promesas
   let arrayPromises = [];
   // creamos un ciclo para que recorra cada link
-  // usamos fetch para ver acceder al https y hacer la peticion para ver si esta ok o fail
+  // usamos fetch para realizar solicitudes HTTP desde el servidor y obtener datos de recursos externos, ver is esta ok o fail
   arrayPromises = arrayAllLinks.map((link) => fetch(link.href)
     .then((result) => {
       // promesa redulta el resultado es OK
-      if (result.ok) {
+      if (result) {
         return {
           // agregamos a nuestro array estos elemento a nuestro arrayAllLinks el original
           // (…) occurs in a function call or alike, it's called a "spread operator" and expands an array into a list.
           ...link,
           status: result.status,
-          message: result.statusText,
+          message: result.statusText ? 'OK' : 'FAIL',
         }
       }
-      // cuando la promesa no es resulta el resultado es FAIL
-    }).catch(() => {
+      // cuando la promesa no es resuelta el resultado es FAIL
+    }).catch((error) => {
       return {
         ...link,
         status: 'FAIL',
-        message: 'NOT FOUND',
+        message: error.code,
       }
     }))
   return Promise.all(arrayPromises);

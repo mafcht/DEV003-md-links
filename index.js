@@ -24,14 +24,9 @@ const mdLinks = (path, options) => {
           // resuelve aplicando la funcion de getAllLinks a los paths absolutos y me muestra solo el array de links
           resolve((getAllLinks(absPath)))
         }
-        // agregamos opcion cuando es diferente a true y undefined
-        else if (linksArr.length >= 1 && (options.validate != true || options == undefined)) {
-          // resuelve aplicando la funcion de getAllLinks a los paths absolutos y me muestra solo el array de links
-          resolve((getAllLinks(absPath)))
-        }
         // cuando el array sea igual a 0 manda el error que no encontro links
         else if (linksArr.length == 0) {
-          reject(new Error('NO PATH FOUND'))
+          reject('ERROR: NO PATH FOUND')
         }
       }
     }
@@ -64,7 +59,7 @@ const mdLinks = (path, options) => {
 // .catch((error) => console.log(error));
 
 // prueba de desarrollo para cuando path no existe
-// mdLinks('/Users/mafcht/Documents/DEV003-md-links/folderTests/folder2Tests', {validate : false})
+// mdLinks('/Users/mafcht/Documents/DEV003-md-links/folderTests/folder2Testss', {validate : false})
 // .then((resolve) => console.log(resolve))
 // .catch((error) => console.log(error));
 
