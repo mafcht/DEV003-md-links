@@ -80,9 +80,11 @@ You can use `npm i md-links-fc` or `npm install md-links-fc` to install the pack
 Example:
 
 
+![install](./media/install.png)
 
 
-## 2) Using package in CLI (Command Line Interface)
+
+### 2) Using package in CLI (Command Line Interface)
 
 **`mdlinks-fc`**
 
@@ -98,6 +100,8 @@ Example:
 
 
 Our application executable should be able to run through the terminal with the following command:
+
+
 `mdlinks-fc <path-to-file> [options]`
 
 
@@ -139,6 +143,8 @@ We see that the output, in this case, includes the word `ok` or `fail` after the
 
 
 **`--stats`**
+
+
 If we pass the `--stats` option the output will be a text with basic statistics about the links. You can type the following command:
 
 
