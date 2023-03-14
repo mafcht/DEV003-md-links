@@ -36,7 +36,7 @@ This project was developed in 4 sprints, each sprint has specific actions to imp
 * Flow Diagram 
 
 
-![flowdiagram](./media/DiagramaDeFlujo.png)
+![flowdiagram](https://github.com/mafcht/DEV003-md-links/blob/main/media/DiagramaDeFlujo.png?raw=true)
 
 
 * Read documentation
@@ -80,7 +80,7 @@ You can use `npm i md-links-fc` or `npm install md-links-fc` to install the pack
 Example:
 
 
-![install](./media/install.png)
+![install](https://github.com/mafcht/DEV003-md-links/blob/main/media/install.png?raw=true)
 
 
 
@@ -96,7 +96,7 @@ If the user only types `mdlinks-fc` without any path or option in the terminal, 
 Example:
 
 
-![welcome](./media/1.png)
+![welcome](https://github.com/mafcht/DEV003-md-links/blob/main/media/1.png?raw=true)
 
 
 Our application executable should be able to run through the terminal with the following command:
@@ -114,7 +114,7 @@ If you don’t add any options, and only type the following command in the termi
 Example:
 
 
-![array](./media/2A.png)
+![array](https://github.com/mafcht/DEV003-md-links/blob/main/media/2A.png?raw=true)
 
 
 
@@ -134,7 +134,7 @@ If we type the `--validate` option after the path, the module should make an HTT
 Example:
 
 
-![validate](./media/2V.png)
+![validate](https://github.com/mafcht/DEV003-md-links/blob/main/media/2V.png?raw=true)
 
 
 We see that the output, in this case, includes the word `ok` or `fail` after the URL, as well as the status of the response received to the HTTP request to that URL.
@@ -154,7 +154,7 @@ If we pass the `--stats` option the output will be a text with basic statistics 
 Example:
 
 
-![stats](./media/2S.png)
+![stats](https://github.com/mafcht/DEV003-md-links/blob/main/media/2S.png?raw=true)
 
 
 
@@ -170,7 +170,7 @@ You can also combine `--stats` and `--validate` to get statistics that need the 
 Example:
 
 
-![statsvalidate](./media/2SV.png)
+![statsvalidate](https://github.com/mafcht/DEV003-md-links/blob/main/media/2SV.png?raw=true)
 
 
 
@@ -187,7 +187,7 @@ Finally, if you forget the commands and need help remembering them, you can type
 Example:
 
 
-![help](./media/2H.png)
+![help](https://github.com/mafcht/DEV003-md-links/blob/main/media/2H.png?raw=true)
 
 
 
